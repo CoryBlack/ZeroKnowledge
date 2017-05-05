@@ -3,7 +3,7 @@ import socket
 import random as rnd
 
 HOST = ''
-PORT = 50055
+PORT = 50050
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen(1)
@@ -31,15 +31,19 @@ def authenticate():
 
 	#TODO: change the buffer size here ?
 	# server receives the username, c, and z
+	print "a"
 	curr_username = conn.recv(1024)
 	c = int(conn.recv(8192))
 	z = int(conn.recv(8192))
+	print curr_username
+	print c
+	print z
 	y = usernames[curr_username]
 
 	t = generateT(y, c, z)
 	# server calculates its expected c
 	cPrime = hash(str(y) + str(t) + str(A))
-
+	print cPrime
 	# if match, then client is authenticated
 	if c == cPrime:
 		conn.sendall("You're in!")
@@ -56,6 +60,7 @@ while 1:
 		usernames[username] = Y
 	elif (action == "authenticate"):
 		# want to authenticate
+		print "a"
 		authenticate()
 	else:
 		break
