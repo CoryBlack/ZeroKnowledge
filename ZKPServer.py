@@ -12,11 +12,15 @@ print 'Connected by', addr
 
 #-------------------------------------------------------------------
 # client sends true or false for if we are registering
-register = conn.recv(1024)
-if (register == true)
-	username = conn.recv(1024)
-	Y = conn.recv(1024)
-	usernames[username] = Y
+# loop continues until false is sent - meaning we want to authenticate
+while 1:
+	register = conn.recv(1024)
+	if (register == true)
+		username = conn.recv(1024)
+		Y = conn.recv(1024)
+		usernames[username] = Y
+	else
+		break
 
 rnd.seed(1) #just for tests
 usernames = {}
