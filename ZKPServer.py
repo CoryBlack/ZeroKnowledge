@@ -10,6 +10,11 @@ s.listen(1)
 conn, addr = s.accept()
 print 'Connected by', addr
 
+rnd.seed(1) #just for tests
+usernames = {}
+n = 13
+g = 5
+
 #-------------------------------------------------------------------
 # client sends true or false for if we are registering
 # loop continues until false is sent - meaning we want to authenticate
@@ -22,10 +27,7 @@ while 1:
 	else:
 		break
 
-rnd.seed(1) #just for tests
-usernames = {}
-n = 13
-g = 5
+
 
 def generateA():
 	return rnd.randint(0,10000) #just a placeholder
