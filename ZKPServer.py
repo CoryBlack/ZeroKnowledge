@@ -15,7 +15,7 @@ print 'Connected by', addr
 # loop continues until false is sent - meaning we want to authenticate
 while 1:
 	register = conn.recv(1024)
-	if (register == "true")
+	if (register == "true"):
 		username = conn.recv(1024)
 		Y = conn.recv(1024)
 		usernames[username] = Y
