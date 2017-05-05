@@ -25,13 +25,10 @@ while true:
 
 	input_user = raw_input("Enter your username: ")
 	input_pass = raw_input("Enter your password: ")
-	hashedP = hash(input_pass)
-
-	# data = s.recv(1024)
 
 	#All authentication code lies within the Authentication method
 
-	# authenticate(input_user, hashedP)
+	# authenticate(input_user, input_pass)
 
 
 
@@ -57,21 +54,24 @@ def computeY(x):
 def generateR():
 	return rnd.random(1,n-1)
 
-# def authenticate(username, password):
-# 	#Right before all of this we need to tell the server we are trying to authenticate and it will send us A
-# 	A = s.recv(1024) #not sure if this is correct but placeholder
+def authenticate(username, password):
+	#Right before all of this we need to tell the server we are trying to authenticate and it will send us A
+	A = s.recv(1024) #not sure if this is correct but placeholder
+	s.sendall(username)
 
-# 	#put in username and password
-# 	x = hash(password)
-# 	y = computeY(x)
-# 	r = generateR()
+	#put in username and password
+	x = hash(password)
+	y = computeY(x)
+	r = generateR()
 
-# 	# We dont know if Mod is necessary or not TODO
-# 	t = (g ** r) % n # add our own exponentiation if we want faster code
+	# We dont know if Mod is necessary or not TODO
+	t = (g ** r) % n # add our own exponentiation if we want faster code
 
-# 	c = hash(str(y) + str(t) + str(A))
-# 	z = r - (c * x)
+	c = hash(str(y) + str(t) + str(A))
+	z = r - (c * x)
 
-# 	username = "jerry"
-# 	s.sendall(username + "c = " + str(c) + "z = " + str(z))
 
+	s.sendall(str(c))
+	s.sendall(str(z))
+	response = s.recv(1024)
+	print(response)
