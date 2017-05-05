@@ -54,7 +54,7 @@ while 1:
 		username = conn.recv(1024)
 		Y = conn.recv(1024)
 		usernames[username] = Y
-	else if (action == "authenticate"):
+	elif (action == "authenticate"):
 		# want to authenticate
 		authenticate()
 	else:
