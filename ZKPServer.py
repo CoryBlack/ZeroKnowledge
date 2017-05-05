@@ -33,12 +33,13 @@ def authenticate():
 	# server receives the username, c, and z
 	print "a"
 	curr_username = conn.recv(1024)
+	print curr_username
 	c = int(conn.recv(8192))
 	z = int(conn.recv(8192))
 	print curr_username
 	print c
 	print z
-	y = usernames[curr_username]
+	y = int(usernames[curr_username])
 
 	t = generateT(y, c, z)
 	# server calculates its expected c
@@ -63,4 +64,5 @@ while 1:
 		print "a"
 		authenticate()
 	else:
+		s.close()
 		break
