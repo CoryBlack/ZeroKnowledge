@@ -12,22 +12,26 @@ s.connect((HOST, PORT))
 n = 13
 g = 5
 
+while true:
 
-input_register = raw_input("Would you like to register? ")
+	while raw_input("Would you like to register? ") == 'yes':
+		s.sendall('register')
+		input_user = raw_input("Enter your username: ")
+		s.sendall(input_user)
+		input_pass = raw_input("Enter your password: ")
+		s.sendall(hash(input_pass))
 
-if input_register == 'yes':
-	s.sendall('true')
+	s.sendall('authenticate')
+
 	input_user = raw_input("Enter your username: ")
-	s.sendall(input_user)
 	input_pass = raw_input("Enter your password: ")
-	s.sendall(input_pass)
+	hashedP = hash(input_pass)
 
+	# data = s.recv(1024)
 
-# hashedP = hash(input_pass)
+	#All authentication code lies within the Authentication method
 
-# #All authentication code lies within the Authentication method
-
-# authenticate("placeholder", hashedP)
+	# authenticate(input_user, hashedP)
 
 
 
@@ -43,18 +47,15 @@ if input_register == 'yes':
 # #-------------------------------------------------------------------------------------------
 # #All other defined Methods
 
-def hash():
-	return 5
-
 
 # def sendUsernameAndY():
 #         return 1
 
-# def computeY(x):
-# 	return g**x
+def computeY(x):
+	return g**x
 
-# def generateR():
-# 	return rnd.random(1,n-1)
+def generateR():
+	return rnd.random(1,n-1)
 
 # def authenticate(username, password):
 # 	#Right before all of this we need to tell the server we are trying to authenticate and it will send us A
