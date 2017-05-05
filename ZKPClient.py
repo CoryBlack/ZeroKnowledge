@@ -2,9 +2,9 @@
 import socket
 import random as rnd
 
-HOST = '130.229.144.135' #use your own ip address
+HOST = '130.229.131.64' #use your own ip address
 
-PORT = 50050
+PORT = 50055
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 #-----------------------------------------------------------------------------------------
@@ -52,29 +52,31 @@ def generateR():
 def authenticate(username, password):
 	#Right before all of this we need to tell the server we are trying to authenticate and it will send us A
 	A = s.recv(1024) #not sure if this is correct but placeholder
-	print(A)
 	s.send(username)
-	print("d")
 	#put in username and password
 	x = hash(password)
-	print x
 	y = computeY(x)
-	print("computed")
 	r = generateR()
-	print('ss')
 
 	# We dont know if Mod is necessary or not TODO
 	t = (g ** r) % n # add our own exponentiation if we want faster code
-	print 'b'
 	c = hash(str(y) + str(t) + str(A))
 	z = r - (c * x)
-	print 'd'
 	print c
+	# s.sendall(str(t))
+	print t
 	s.sendall(str(c))
-	print c
 	s.sendall(str(z))
 	print z
+	print
+	print
+	print y
+	print t
+	print A
+	print
+	print
 	response = s.recv(1024)
+
 	print(response)
 
 #Before registration we need to receive these from the clients
@@ -88,7 +90,7 @@ while True:
 		input_user = raw_input("Enter your username: ")
 		s.sendall(input_user)
 		input_pass = raw_input("Enter your password: ")
-		s.sendall(str(hash(input_pass)))
+		s.sendall(str(computeY(hash(input_pass))))
 
 	s.sendall('authenticate')
 

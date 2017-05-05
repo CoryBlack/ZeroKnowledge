@@ -4,14 +4,14 @@ import random as rnd
 import sys
 
 HOST = ''
-PORT = 50050
+PORT = 50055
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen(1)
 conn, addr = s.accept()
 print 'Connected by', addr
 
-rnd.seed(1) #just for tests
+# rnd.seed(1) #just for tests
 usernames = {}
 n = 13
 g = 5
@@ -49,21 +49,26 @@ def authenticate():
 
 	#TODO: change the buffer size here ?
 	# server receives the username, c, and z
-	print "a"
 	curr_username = conn.recv(1024)
-	print curr_username
+	# t = int(conn.recv(8192))
+	print "d"
 	c = int(conn.recv(8192))
 	z = int(conn.recv(8192))
-	print curr_username
 	print c
 	print z
 	y = int(usernames[curr_username])
 
 	t = generateT(y, c, z)
 	# server calculates its expected c
+	print
+	print
+	print y
+	print t
+	print A
+	print
+	print
 	cPrime = hash(str(y) + str(t) + str(A))
 	print cPrime
-	print "aaaaaa"
 	# if match, then client is authenticated
 	if c == cPrime:
 		conn.sendall("You're in!")
