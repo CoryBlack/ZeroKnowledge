@@ -21,7 +21,7 @@ print("Enter your password")
 #username = ...
 #password = ...
 
-hashedP = hashPassword(password)
+hashedP = hash(password)
 
 
 
@@ -45,17 +45,13 @@ print 'Received', repr(data)
 
 
 def sendUsernameAndY():
-
-
-def hash(password):
-	return 5 #placeholder
+        return 1
 
 def computeY(x):
-	return 5 #placeholder
+	return g**x
 
-def computeR():
-	#return random integer between 1 and n - 1
-	return 5 #placeholder
+def generateR():
+	return rnd.random(1,n-1)
 
 def authenticate(username, password):
 	#Right before all of this we need to tell the server we are trying to authenticate and it will send us A
@@ -74,3 +70,4 @@ def authenticate(username, password):
 
 	username = "jerry"
 	s.sendall(username + "c = " + str(c) + "z = " + str(z))
+

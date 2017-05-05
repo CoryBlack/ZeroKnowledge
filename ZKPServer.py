@@ -1,5 +1,6 @@
 # Echo server program
 import socket
+import random as rnd
 
 HOST = ''
 PORT = 50008
@@ -12,15 +13,16 @@ print 'Connected by', addr
 #-------------------------------------------------------------------
 #Our code below, rest is just boilerplate connections
 
+rnd.seed(1) #just for tests
+usernames = {}
+Ys = {}
 n = 13
 g = 5
 
 #REGISTRATION
 #If connected for registration, wait for the username and Y and store it
-#usernames.add(username)
-#Ys.add(Y)
-
-
+usernames[username] = len(usernames)
+Ys[len(Ys)] = Y
 
 
 
@@ -52,16 +54,14 @@ while 1:
 conn.close()
 #-------------------------------------------------------------------------------------
 
-
-def hash(val):
-
-
 def generateA():
-	return 5 #just a placeholder
+	return rnd.randint(0,10000) #just a placeholder
 
 
 #look up the y corresponding to the username
 def generateT(username, c, z):
-	#find y
+	if usernames.has_key(username):
+                key = usernames.get(username)
+                y = Ys.get(key)
 	# We dont know if Mod is necessary or not TODO
 	return ((y ** c) * (g ** z)) % n
