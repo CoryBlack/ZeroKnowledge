@@ -2,7 +2,8 @@
 import socket
 import random as rnd
 
-HOST = '130.229.131.64' #use your own ip address
+HOST = '130.229.144.135' #use your own ip address
+
 PORT = 50050
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
@@ -45,6 +46,7 @@ def computeY(x):
 	return domodexp(g, x, x)
 
 def generateR():
+
 	return rnd.randint(1, n - 1)
 
 def authenticate(username, password):
