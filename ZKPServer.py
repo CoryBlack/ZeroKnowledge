@@ -1,6 +1,7 @@
 # Echo server program
 import socket
 import random as rnd
+import sys
 
 HOST = ''
 PORT = 50050
@@ -15,14 +16,31 @@ usernames = {}
 n = 13
 g = 5
 
+
 def generateA():
 	return rnd.randint(0,10000) #just a placeholder
+
+
+def domodexp (base, exp, mod):
+    workingB = base
+    workingE = exp
+    total = 1
+    while(workingE > 0):
+        if workingE % 2 == 0:
+            # square for every position in the binary rep
+            workingB = (workingB * workingB) % mod
+            workingE = workingE / 2
+        else:
+            # if reach a 1 in the binary rep, add 1 more of total
+            total = (total * workingB) % mod
+            workingE = workingE - 1
+    return total
 
 
 #look up the y corresponding to the username
 def generateT(y, c, z):
 	# We dont know if Mod is necessary or not TODO
-	return ((y ** c) * (g ** z)) % n
+	return ((domodexp(y, c, sys.maxsize)) * (domodexp(g, z, sys.maxsize))) % n
 
 
 def authenticate():
@@ -45,6 +63,7 @@ def authenticate():
 	# server calculates its expected c
 	cPrime = hash(str(y) + str(t) + str(A))
 	print cPrime
+	print "aaaaaa"
 	# if match, then client is authenticated
 	if c == cPrime:
 		conn.sendall("You're in!")
