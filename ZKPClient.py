@@ -1,8 +1,9 @@
 # Echo client program
 import socket
+import random as rnd
 
 HOST = '130.229.144.135' #use your own ip address
-PORT = 50055
+PORT = 50050
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 #-----------------------------------------------------------------------------------------
@@ -29,7 +30,7 @@ def computeY(x):
 	return g**x
 
 def generateR():
-	return rnd.random(1,n-1)
+	return rnd.randint(1,n-1)
 
 def authenticate(username, password):
 	#Right before all of this we need to tell the server we are trying to authenticate and it will send us A
