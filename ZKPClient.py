@@ -9,24 +9,6 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 #-----------------------------------------------------------------------------------------
 
-
-
-# #-------------------------------------------------------------------------------------
-# #Boilerplate input output code
-# s.sendall('Hello,world')
-# data = s.recv(1024)
-# s.close()
-# print 'Received', repr(data)
-# #-------------------------------------------------------------------------------------
-
-
-# #-------------------------------------------------------------------------------------------
-# #All other defined Methods
-
-
-# def sendUsernameAndY():
-#         return 1
-
 def domodexp (base, exp, mod):
     workingB = base
     workingE = exp
@@ -59,9 +41,9 @@ def authenticate(username, password):
 	r = generateR()
 
 	# We dont know if Mod is necessary or not TODO
-	t = (g ** r) % n # add our own exponentiation if we want faster code
-	c = hash(str(y) + str(t) + str(A))
-	z = r - (c * x)
+	t = (g ** r) # add our own exponentiation if we want faster code
+	c = (hash(str(y) + "&" + str(t) + "&" + str(A))) % y
+	z = (r - (c * x) ) % y
 	print c
 	# s.sendall(str(t))
 	print t
