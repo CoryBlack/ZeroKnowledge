@@ -12,14 +12,14 @@ s.connect((HOST, PORT))
 n = 13
 g = 5
 
-while true:
+while True:
 
 	while raw_input("Would you like to register? ") == 'yes':
 		s.sendall('register')
 		input_user = raw_input("Enter your username: ")
 		s.sendall(input_user)
 		input_pass = raw_input("Enter your password: ")
-		s.sendall(hash(input_pass))
+		s.sendall(str(hash(input_pass)))
 
 	s.sendall('authenticate')
 
@@ -28,7 +28,7 @@ while true:
 
 	#All authentication code lies within the Authentication method
 
-	# authenticate(input_user, input_pass)
+	authenticate(input_user, input_pass)
 
 
 
