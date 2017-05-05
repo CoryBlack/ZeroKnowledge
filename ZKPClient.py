@@ -14,8 +14,14 @@ g = 5
 
 
 input_register = raw_input("Would you like to register? ")
-input_user = raw_input("Enter your username: ")
-input_pass = raw_input("Enter your password: ")
+
+if input_register == "yes":
+	s.sendall('true')
+	input_user = raw_input("Enter your username: ")
+	s.sendall(input_user)
+	input_pass = raw_input("Enter your password: ")
+	input_user(input_pass)
+
 
 # hashedP = hash(input_pass)
 
