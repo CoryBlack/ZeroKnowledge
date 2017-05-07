@@ -13,12 +13,15 @@ print 'Connected by', addr
 
 # rnd.seed(1) #just for tests
 usernames = {}
+# TODO: we don't use n anywhere ?
 n = 13
 g = 5
+conn.sendall(str(g))
 
 
-def generateA():
-	return rnd.randint(0, sys.maxsize) #just a placeholder
+def generateC():
+	# TODO: arbitrarily making this 1024
+	return rnd.randint(0, 1024)
 
 
 def domodexp (base, exp):
@@ -36,49 +39,18 @@ def domodexp (base, exp):
             workingE = workingE - 1
     return total
 
-
-#look up the y corresponding to the username
-def generateT(y, c, z):
-	# We dont know if Mod is necessary or not TODO
-	return ((domodexp(y, c)) * (domodexp(g, z)))
-
-
 def authenticate():
-	A = generateA()
-	conn.sendall(str(A))
-
-	#TODO: change the buffer size here ?
-	# server receives the username, c, and z
-	curr_username = conn.recv(1024)
-	# t = int(conn.recv(8192))
-	print "d"
-	y = int(usernames[curr_username])
-
-	c = int(conn.recv(8192)) % y
-	z = int(conn.recv(8192)) % y
-	print c
-	print z
-
-	t = generateT(y, c, z)
-	# server calculates its expected c
-	print
-	print
-	print y
-	print t
-	print A
-	print
-	print
-	cPrime = hash(str(y) + "&" + str(t) + "&" + str(A))
-	print cPrime
-	# if match, then client is authenticated
-	if c == cPrime:
-		conn.sendall("You're in!")
+	c = generateC()
+	conn.sendall(str(c))
+	s = int(conn.recv(8192))
+	t1 = doexp(g, s)
+	t2 = t * doexp(y, c)
+	if (t1 == t2):
+		conn.sendall("authenticated")
 
 
-#-------------------------------------------------------------------
-# client sends true or false for if we are registering
-# loop continues until false is sent - meaning we want to authenticate
-
+# determines what action server should take based
+# on what the client wants to do
 while 1:
 	action = conn.recv(1024)
 	if (action == "register"):
