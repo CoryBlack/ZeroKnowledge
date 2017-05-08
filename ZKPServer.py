@@ -24,7 +24,7 @@ def generateC():
 	return rnd.randint(0, 1024)
 
 
-def domodexp (base, exp):
+def doexp (base, exp):
     workingB = base
     workingE = exp
     total = 1
@@ -40,10 +40,13 @@ def domodexp (base, exp):
     return total
 
 def authenticate():
+	t = int(conn.recv(8192))
+	username = conn.recv(8192)
 	c = generateC()
 	conn.sendall(str(c))
 	s = int(conn.recv(8192))
 	t1 = doexp(g, s)
+	y = int(usernames[username])
 	t2 = t * doexp(y, c)
 	if (t1 == t2):
 		conn.sendall("authenticated")
@@ -55,12 +58,12 @@ while 1:
 	action = conn.recv(1024)
 	if (action == "register"):
 		username = conn.recv(1024)
-		Y = conn.recv(1024)
+		Y = conn.recv(8192)
 		usernames[username] = Y
 	elif (action == "authenticate"):
 		# want to authenticate
-		print "a"
 		authenticate()
 	else:
+		print action
 		s.close()
 		break
