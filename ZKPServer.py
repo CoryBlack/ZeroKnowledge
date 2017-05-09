@@ -41,19 +41,22 @@ def doexp (base, exp):
     return total
 
 def authenticate():
-	t = int(conn.recv(8192))
-	username = conn.recv(8192)
-	c = generateC()
-	conn.sendall(str(c))
-	s = int(conn.recv(8192))
-	t1 = doexp(g, s)
-	print t1
-	y = int(usernames[username])
-	t2 = (t * doexp(y, c))%n
-	if (t1 == t2):
-		conn.sendall("authenticated")
-	else:
-                conn.sendall("Wrong password")
+        i=0
+        while i<10:
+                i += 1
+                t = int(conn.recv(8192))
+                username = conn.recv(8192)
+                c = generateC()
+                conn.sendall(str(c))
+                s = int(conn.recv(8192))
+                t1 = doexp(g, s)
+                y = int(usernames[username])
+                t2 = (t * doexp(y, c))%n
+                if (t1 == t2):
+                        conn.sendall("authenticated")
+                else:
+                        conn.sendall("Wrong password")
+                        break
 
 
 # determines what action server should take based

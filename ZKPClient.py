@@ -34,17 +34,21 @@ def generateR():
 # doing it multiple times doesn't quite work yet
 def authenticate(username, password):
     # verify authentication works 10 times to beat chance
-    # for i in range(0, 10):
-    r = generateR()
-    t = doexp(g, r)
-    s.sendall(str(t))
-    s.sendall(username)
-    # 8192 here is large enough for the int
-    c = int(s.recv(8192))
-    x = hash(password)%1024
-    numS = r + c * x
-    s.sendall(str(numS))
-    resp = s.recv(1024)
+    i = 0
+    while i<10:
+        i += 1
+        r = generateR()
+        t = doexp(g, r)
+        s.sendall(str(t))
+        s.sendall(username)
+        # 8192 here is large enough for the int
+        c = int(s.recv(8192))
+        x = hash(password)%1024
+        numS = r + c * x
+        s.sendall(str(numS))
+        resp = s.recv(1024)
+        if resp != "authenticated":
+            break
     print resp
 
 # Server sends generator
