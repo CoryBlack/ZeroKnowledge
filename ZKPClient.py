@@ -36,14 +36,17 @@ def authenticate(username, password):
     # verify authentication works 10 times to beat chance
     i = 0
     while i<10:
+        s.sendall(username)
+        if (s.recv(8192) == "not a user"):
+            resp = "User not registered"
+            break
         i += 1
         r = generateR()
         t = doexp(g, r)
         s.sendall(str(t))
-        s.sendall(username)
         # 8192 here is large enough for the int
         c = int(s.recv(8192))
-        x = hash(password)%1024
+        x = hash(password)%2048
         numS = r + c * x
         s.sendall(str(numS))
         resp = s.recv(1024)
@@ -64,11 +67,13 @@ while True:
         s.sendall(input_user)
         input_pass = raw_input("Enter your password: ")
         # TODO: arbitrarily modding this to make calculations go faster
-        y = g**(hash(input_pass)%1024)
+        y = g**(hash(input_pass)%2048)
         s.sendall(str(y))
+        print
 
     else :
         s.sendall('authenticate')
         input_user = raw_input("Enter your username: ")
         input_pass = raw_input("Enter your password: ")
         authenticate(input_user, input_pass)
+        print
