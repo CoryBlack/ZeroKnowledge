@@ -47,8 +47,9 @@ def authenticate():
 	conn.sendall(str(c))
 	s = int(conn.recv(8192))
 	t1 = doexp(g, s)
+	print t1
 	y = int(usernames[username])
-	t2 = t * doexp(y, c)
+	t2 = (t * doexp(y, c))%n
 	if (t1 == t2):
 		conn.sendall("authenticated")
 	else:

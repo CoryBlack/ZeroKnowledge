@@ -41,7 +41,7 @@ def authenticate(username, password):
     s.sendall(username)
     # 8192 here is large enough for the int
     c = int(s.recv(8192))
-    x = hash(password) % 1024
+    x = hash(password)%1024
     numS = r + c * x
     s.sendall(str(numS))
     resp = s.recv(1024)
@@ -53,17 +53,18 @@ g = int(s.recv(1024))
 
 while True:
 
-    while raw_input("Would you like to register? ").startswith('y'):
+    action = raw_input("Would you like to register? ")
+    if action.startswith('y'):
         s.sendall('register')
         input_user = raw_input("Enter your username: ")
         s.sendall(input_user)
         input_pass = raw_input("Enter your password: ")
         # TODO: arbitrarily modding this to make calculations go faster
-        y = doexp(g, hash(input_pass) % 1024)
+        y = g**(hash(input_pass)%1024)
         s.sendall(str(y))
 
-    s.sendall('authenticate')
-
-    input_user = raw_input("Enter your username: ")
-    input_pass = raw_input("Enter your password: ")
-    authenticate(input_user, input_pass)
+    else :
+        s.sendall('authenticate')
+        input_user = raw_input("Enter your username: ")
+        input_pass = raw_input("Enter your password: ")
+        authenticate(input_user, input_pass)
