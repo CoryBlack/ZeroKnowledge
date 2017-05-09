@@ -16,11 +16,11 @@ def doexp (base, exp):
     while(workingE > 0):
         if workingE % 2 == 0:
             # square for every position in the binary rep
-            workingB = (workingB * workingB)
+            workingB = (workingB * workingB)%n
             workingE = workingE / 2
         else:
             # if reach a 1 in the binary rep, add 1 more of total
-            total = (total * workingB)
+            total = (total * workingB)%n
             workingE = workingE - 1
     return total
 
@@ -45,13 +45,10 @@ def authenticate(username, password):
     numS = r + c * x
     s.sendall(str(numS))
     resp = s.recv(1024)
-    if resp != "authenticated":
-        print "sorry - wrong information"
-    else:
-        print "authenticated!"
-            # break
+    print resp
 
 # Server sends generator
+n = int(s.recv(1024))
 g = int(s.recv(1024))
 
 while True:

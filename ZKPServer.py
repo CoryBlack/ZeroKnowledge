@@ -16,6 +16,7 @@ usernames = {}
 # TODO: we don't use n anywhere ?
 n = 13
 g = 5
+conn.sendall(str(n))
 conn.sendall(str(g))
 
 
@@ -31,11 +32,11 @@ def doexp (base, exp):
     while(workingE > 0):
         if workingE % 2 == 0:
             # square for every position in the binary rep
-            workingB = (workingB * workingB)
+            workingB = (workingB * workingB)%n
             workingE = workingE / 2
         else:
             # if reach a 1 in the binary rep, add 1 more of total
-            total = (total * workingB)
+            total = (total * workingB)%n
             workingE = workingE - 1
     return total
 
@@ -50,6 +51,8 @@ def authenticate():
 	t2 = t * doexp(y, c)
 	if (t1 == t2):
 		conn.sendall("authenticated")
+	else:
+                conn.sendall("Wrong password")
 
 
 # determines what action server should take based
