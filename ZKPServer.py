@@ -21,7 +21,6 @@ conn.sendall(str(g))
 
 
 def generateC():
-    # TODO: arbitrarily making this 1024
     return rnd.randint(0, 1024)
 
 

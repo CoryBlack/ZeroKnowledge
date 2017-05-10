@@ -29,9 +29,6 @@ def generateR():
     return rnd.randint(1, 1024)
 
 
-# TODO TODO TODO:
-# if incorrect password provided, hangs
-# doing it multiple times doesn't quite work yet
 def authenticate(username, password):
     # verify authentication works 10 times to beat chance
     i = 0
@@ -66,7 +63,6 @@ while True:
         input_user = raw_input("Enter your username: ")
         s.sendall(input_user)
         input_pass = raw_input("Enter your password: ")
-        # TODO: arbitrarily modding this to make calculations go faster
         y = g**(hash(input_pass)%2048)
         s.sendall(str(y))
         print
