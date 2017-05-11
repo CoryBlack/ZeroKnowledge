@@ -21,8 +21,7 @@ conn.sendall(str(g))
 
 
 def generateC():
-	# TODO: arbitrarily making this 1024
-	return rnd.randint(0, 1024)
+    return rnd.randint(0, 1024)
 
 
 def doexp (base, exp):
@@ -44,8 +43,13 @@ def authenticate():
         i=0
         while i<10:
                 i += 1
-                t = int(conn.recv(8192))
                 username = conn.recv(8192)
+                if (username not in usernames):
+                    conn.sendall("not a user")
+                    break
+                else:
+                    conn.sendall("ok")
+                t = int(conn.recv(8192))
                 c = generateC()
                 conn.sendall(str(c))
                 s = int(conn.recv(8192))
@@ -62,15 +66,15 @@ def authenticate():
 # determines what action server should take based
 # on what the client wants to do
 while 1:
-	action = conn.recv(1024)
-	if (action == "register"):
-		username = conn.recv(1024)
-		Y = conn.recv(8192)
-		usernames[username] = Y
-	elif (action == "authenticate"):
-		# want to authenticate
-		authenticate()
-	else:
-		print action
-		s.close()
-		break
+    action = conn.recv(1024)
+    if (action == "register"):
+        username = conn.recv(1024)
+        Y = conn.recv(8192)
+        usernames[username] = Y
+    elif (action == "authenticate"):
+        # want to authenticate
+        authenticate()
+    else:
+        print action
+        s.close()
+        break
