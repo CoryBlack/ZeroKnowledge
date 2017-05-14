@@ -1,14 +1,14 @@
-# Echo client program
 import socket
 import random as rnd
 
-HOST = 'localhost' #use your own ip address
+HOST = 'localhost'
 
 PORT = 50055
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 #-----------------------------------------------------------------------------------------
 
+# mod exponentiation mod n
 def doexp (base, exp):
     workingB = base
     workingE = exp
@@ -16,16 +16,16 @@ def doexp (base, exp):
     while(workingE > 0):
         if workingE % 2 == 0:
             # square for every position in the binary rep
-            workingB = (workingB * workingB)%n
+            workingB = (workingB * workingB) % n
             workingE = workingE / 2
         else:
             # if reach a 1 in the binary rep, add 1 more of total
-            total = (total * workingB)%n
+            total = (total * workingB) % n
             workingE = workingE - 1
     return total
 
+# generates random number
 def generateR():
-    # TODO: arbitrarily making this 1024
     return rnd.randint(1, 1024)
 
 

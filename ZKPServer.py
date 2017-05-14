@@ -1,4 +1,3 @@
-# Echo server program
 import socket
 import random as rnd
 import sys
@@ -11,19 +10,20 @@ s.listen(1)
 conn, addr = s.accept()
 print 'Connected by', addr
 
-# rnd.seed(1) #just for tests
+# map from username to Y value
 usernames = {}
-# TODO: we don't use n anywhere ?
 n = 13
 g = 5
+# send generator
 conn.sendall(str(n))
 conn.sendall(str(g))
 
-
+# generates random challenge
+# see writeup for why we bound it by a multiple of n - 1
 def generateC():
-    return rnd.randint(0, 1024)
+    return rnd.randint(0, 100 * (n - 1))
 
-
+# fast exponentiation mod n
 def doexp (base, exp):
     workingB = base
     workingE = exp
@@ -31,16 +31,17 @@ def doexp (base, exp):
     while(workingE > 0):
         if workingE % 2 == 0:
             # square for every position in the binary rep
-            workingB = (workingB * workingB)%n
+            workingB = (workingB * workingB) % n
             workingE = workingE / 2
         else:
             # if reach a 1 in the binary rep, add 1 more of total
-            total = (total * workingB)%n
+            total = (total * workingB) % n
             workingE = workingE - 1
     return total
 
 def authenticate():
         i=0
+        # repeat process multiple times
         while i<10:
                 i += 1
                 username = conn.recv(8192)
